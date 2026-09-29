@@ -1,0 +1,26 @@
+framework_version: '2.0'
+rule_pack: MuleSoft Engineering Governance Framework - Concrete Rules
+rule_count: 1
+defaults:
+  fail_on: HIGH
+  mule_runtime: 4.9.11
+  java_version: '17'
+gates:
+- id: G01
+  name: Repository & Source Standards
+  rule_count: 1
+rules:
+- id: G01-R04
+  gate: G01
+  gate_name: Repository & Source Standards
+  severity: HIGH
+  title: Repository defines CODEOWNERS
+  description: Repository defines CODEOWNERS.
+  enabled: true
+  enforcement:
+    type: file_exists
+    mode: automated
+  remediation: Define accountable owners for protected code.
+  waiver:
+    allowed: true
+    requires_expiry: true
