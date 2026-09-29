@@ -11,11 +11,9 @@ on:
         description: Target environment
         required: true
         type: string
-    secrets:
-      MULE_CLIENT_ID:
-        required: true
-      MULE_CLIENT_SECRET:
-        required: true
+
+
+    
 
 jobs:
   build-deploy:
@@ -40,6 +38,4 @@ jobs:
         run: |
           mvn -B deploy -DmuleDeploy \
             -DappName=${{ inputs.app_name }} \
-            -DlogicalEnv=${{ inputs.environment }} \
-            -DclientId=${{ secrets.MULE_CLIENT_ID }} \
-            -DclientSecret=${{ secrets.MULE_CLIENT_SECRET }}
+            -DlogicalEnv=${{ inputs.environment }}
