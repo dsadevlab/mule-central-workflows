@@ -20,6 +20,9 @@ rules:
   enforcement:
     type: file_exists
     mode: automated
+    paths:
+        - CODEOWNERS
+    match: all 
   remediation: Define accountable owners for protected code.
   waiver:
     allowed: true
