@@ -48,6 +48,8 @@ jobs:
             --config ../mule-central-workflows/config/governance-rules.yaml
             
   build-deploy:
+    name: Build and Deploy
+    needs: governance
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
