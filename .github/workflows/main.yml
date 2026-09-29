@@ -49,7 +49,7 @@ jobs:
             
   build-deploy:
     name: Build and Deploy
-    needs: governance
+    needs: static-governance
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
 
