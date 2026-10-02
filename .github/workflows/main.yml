@@ -42,7 +42,7 @@ jobs:
         with:
           role-to-assume: arn:aws:iam::487316829161:role/github-actions-test-role
           aws-region: ap-southeast-2
-          role-session-name: github-mule-${{ inputs.environment }}
+          role-session-name: github-mule-dev
 
 
       # -------------------------------------------------------
