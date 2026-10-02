@@ -52,7 +52,7 @@ jobs:
         run: |
           python mule-central-workflows/scripts/governance_check.py \
             --root application \
-            --config mule-central-workflows/config/governance-rules.yaml
+            --config ../mule-central-workflows/config/governance-rules.yaml
 
 
   # =========================================================
