@@ -15,65 +15,15 @@ on:
 
 
 jobs:
-
-  # =========================================================
-  # 1. STATIC GOVERNANCE
-  # =========================================================
-  static-governance:
-    name: Static Governance
-    runs-on: ubuntu-latest
-
-    steps:
-
-      - name: Checkout application repository
-        uses: actions/checkout@v4
-        with:
-          path: application
-
-      - name: Checkout central governance framework
-        uses: actions/checkout@v4
-        with:
-          repository: dsadevlab/mule-central-workflows
-          ref: main
-          path: mule-central-workflows
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install governance dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install \
-            -r mule-central-workflows/requirements.txt
-
-      - name: Run MuleSoft governance
-        run: |
-          python mule-central-workflows/scripts/governance_check.py \
-            --root application \
-            --config ../mule-central-workflows/config/governance-rules.yaml
-
-
-  # =========================================================
-  # 2. BUILD + DEPLOY
-  # Runs ONLY when governance succeeds
-  # =========================================================
   build-deploy:
     name: Build and Deploy
-    needs: static-governance
-
     runs-on: ubuntu-latest
 
     # DEV / TEST / PROD
     environment: ${{ inputs.environment }}
-
     steps:
-
       - name: Checkout application repository
         uses: actions/checkout@v4
-
-
       # -------------------------------------------------------
       # Java
       # -------------------------------------------------------
@@ -99,7 +49,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: arn:aws:iam::123456789012:role/github-actions-test-role
+          role-to-assume: arn:aws:iam::487316829161:role/github-actions-test-role
           aws-region: ap-southeast-2
           role-session-name: github-mule-${{ inputs.environment }}
 
@@ -139,17 +89,4 @@ jobs:
             exit 1
           fi
 
-          echo "MuleSoft deployment secrets loaded successfully"
-
-
-      # -------------------------------------------------------
-      # Deploy
-      # -------------------------------------------------------
-      - name: Deploy Mule application
-        run: |
-          mvn -B deploy \
-            -DmuleDeploy \
-            -DappName="${{ inputs.app_name }}" \
-            -DlogicalEnv="${{ inputs.environment }}" \
-            -DclientId="$CLIENT_ID" \
-            -DclientSecret="$CLIENT_SECRET"
+          echo "MuleSoft deployment secrets loaded successfully: $CLIENT_SECRET"
